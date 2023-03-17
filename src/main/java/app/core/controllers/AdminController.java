@@ -23,7 +23,7 @@ public class AdminController {
     @PostMapping(path = "/login")
     public AdminService login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
         try {
-            AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.Administrator);
+            AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
             return adminService;
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Login failed- " + e);

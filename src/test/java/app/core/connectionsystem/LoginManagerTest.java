@@ -11,9 +11,9 @@ class LoginManagerTest {
     @Autowired
     private LoginManager loginManager;
 
-    private ClientType clientTypeAdmin = ClientType.Administrator;
-    private ClientType clientTypeCompany = ClientType.Company;
-    private ClientType clientTypeCustomer = ClientType.Customer;
+    private ClientType clientTypeAdmin = ClientType.ADMIN;
+    private ClientType clientTypeCompany = ClientType.COMPANY;
+    private ClientType clientTypeCustomer = ClientType.CUSTOMER;
 
     @Test
     void loginAdmin() {

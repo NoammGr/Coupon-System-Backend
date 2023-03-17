@@ -24,7 +24,7 @@ public class CustomerController {
     @PostMapping(path = "/login")
     public CustomerService login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
         try {
-            return (CustomerService) loginManager.login(email, password, ClientType.Customer);
+            return (CustomerService) loginManager.login(email, password, ClientType.CUSTOMER);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Login failed- " + e);
         }

@@ -36,19 +36,19 @@ public class LoginManager {
 
     public ClientService login(String name, String password, ClientType client) throws CouponSystemException {
 
-        if (client == (ClientType.Administrator)) {
+        if (client == (ClientType.ADMIN)) {
             if (adminService.login(name, password)) {
                 return this.adminService;
             }
         }
 
-        if (client == (ClientType.Company)) {
+        if (client == (ClientType.COMPANY)) {
             if (companyService.login(name, password)) {
                 return this.companyService;
             }
         }
 
-        if (client == (ClientType.Customer)) {
+        if (client == (ClientType.CUSTOMER)) {
             if (customerService.login(name, password)) {
                 return this.customerService;
             }

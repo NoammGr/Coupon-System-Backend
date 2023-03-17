@@ -23,7 +23,7 @@ public class CompanyController {
     @PostMapping(path = "/login")
     public CompanyService login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
         try {
-            return (CompanyService) loginManager.login(email, password, ClientType.Company);
+            return (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Login failed- " + e);
         }

@@ -40,11 +40,11 @@ class CompanyServiceTest {
         System.out.println("Test 1 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertTrue(companyService.login(email, password));
         String email1 = "AMAT@gmail.com";
         String password1 = "aaabbb";
-        CompanyService companyService1 = (CompanyService) loginManager.login(email1, password1, ClientType.Company);
+        CompanyService companyService1 = (CompanyService) loginManager.login(email1, password1, ClientType.COMPANY);
         assertTrue(companyService1.login(email1, password1));
         System.out.println("Test 1 completed !");
     }
@@ -52,8 +52,8 @@ class CompanyServiceTest {
     @Test
     void addCoupon() {
         System.out.println("Test 2 started !");
-        CompanyService companyService1 = (CompanyService) loginManager.login("Intel@gmail.com", "aaabbb", ClientType.Company);
-        CompanyService companyService2 = (CompanyService) loginManager.login("AMAT@gmail.com", "aaabbb", ClientType.Company);
+        CompanyService companyService1 = (CompanyService) loginManager.login("Intel@gmail.com", "aaabbb", ClientType.COMPANY);
+        CompanyService companyService2 = (CompanyService) loginManager.login("AMAT@gmail.com", "aaabbb", ClientType.COMPANY);
         assertAll(() -> companyService1.addCoupon(coupon));
         assertAll(() -> companyService1.addCoupon(coupon1));
         assertAll(() -> companyService1.addCoupon(coupon2));
@@ -68,7 +68,7 @@ class CompanyServiceTest {
         System.out.println("Test 3 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertAll(() -> companyService.updateCoupon(coupon));
         System.out.println("Test 3 completed !");
     }
@@ -78,7 +78,7 @@ class CompanyServiceTest {
         System.out.println("Test 4 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertAll(() -> companyService.deleteCoupon(coupon));
         System.out.println("Test 4 completed !");
     }
@@ -88,7 +88,7 @@ class CompanyServiceTest {
         System.out.println("Test 5 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertAll(() -> System.out.println(companyService.getCompanyCoupons()));
         System.out.println("Test 5 completed !");
     }
@@ -98,7 +98,7 @@ class CompanyServiceTest {
         System.out.println("Test 6 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertAll(() -> System.out.println(companyService.getCompanyCoupons(category)));
         System.out.println("Test 6 completed !");
     }
@@ -108,7 +108,7 @@ class CompanyServiceTest {
         System.out.println("Test 7 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertAll(() -> System.out.println(companyService.getCompanyCoupons(1001)));
         System.out.println("Test 7 completed !");
     }
@@ -118,7 +118,7 @@ class CompanyServiceTest {
         System.out.println("Test 8 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.Company);
+        CompanyService companyService = (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
         assertAll(() -> System.out.println(companyService.getCompanyDetails()));
         System.out.println("Test 8 completed !");
     }
