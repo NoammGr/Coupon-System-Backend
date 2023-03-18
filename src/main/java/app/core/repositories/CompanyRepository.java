@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import app.core.entities.Company;
 
+import java.util.Optional;
+
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     Company findByEmailAndPassword(String email, String password);
@@ -13,5 +15,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     boolean existsByEmailAndPassword(String email, String password);
 
     boolean existsByEmail(String email);
+
+    Company findByEmail(String email);
 
 }
