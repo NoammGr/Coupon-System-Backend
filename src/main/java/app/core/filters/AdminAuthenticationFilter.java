@@ -4,6 +4,7 @@ import app.core.auth.AdminJwtUtil;
 import app.core.auth.CompanyJwtUtil;
 import app.core.auth.CustomerJwtUtil;
 import app.core.entities.Admin;
+import app.core.exceptions.CouponSystemException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class AdminAuthenticationFilter implements Filter {
                 Admin admin = adminJwtUtil.extractUser(jwt);
                 httpServletRequest.setAttribute("admin", admin);
                 chain.doFilter(httpServletRequest, response);
-            } catch (Exception e) {
+            } catch (CouponSystemException e) {
                 httpServletResponse.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5500");
                 httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer \"general api\"");
                 httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "you need to login: " + e.getMessage());

@@ -2,6 +2,7 @@ package app.core.controllers;
 
 import app.core.auth.UserCredentials;
 import app.core.entities.Customer;
+import app.core.servcies.CompanyService;
 import app.core.servcies.CustomerJwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,13 @@ import org.springframework.web.server.ResponseStatusException;
 public class CustomerAuthController {
     @Autowired
     CustomerJwtService customerJwtService;
+    @Autowired
+    CompanyService companyService;
 
     @PostMapping(path = "/customer-login")
     public String login(@RequestBody UserCredentials userCredentials) {
         try {
+            companyService.login(userCredentials.getEmail(), userCredentials.getPassword());
             return customerJwtService.login(userCredentials);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());

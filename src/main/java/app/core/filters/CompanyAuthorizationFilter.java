@@ -22,7 +22,6 @@ public class CompanyAuthorizationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
         Company company = (Company) httpServletRequest.getAttribute("company");
-        System.out.println("This company : " + company);
         if (company != null) {
             chain.doFilter(httpServletRequest, httpServletResponse);
         } else {
