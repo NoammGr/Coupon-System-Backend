@@ -1,8 +1,8 @@
 package app.core.filters;
 
+import app.core.auth.CompanyJwtUtil;
+import app.core.entities.Admin;
 import app.core.entities.Company;
-import app.core.repositories.CompanyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -11,9 +11,12 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 @Component
 public class CompanyAuthorizationFilter implements Filter {
+    CompanyJwtUtil companyJwtUtil;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("Company filter started !");
@@ -21,7 +24,15 @@ public class CompanyAuthorizationFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        Company company = (Company) httpServletRequest.getAttribute("company");
+        String auth = httpServletRequest.getHeader("Authorization");
+        StringTokenizer stringTokenizer = new StringTokenizer(auth);
+        System.out.println(auth);
+        String jwt = stringTokenizer.nextToken();
+
+        Company company = companyJwtUtil.extractUser(jwt);
+
+        httpServletRequest.setAttribute("company", company);
+
         if (company != null) {
             chain.doFilter(httpServletRequest, httpServletResponse);
         } else {

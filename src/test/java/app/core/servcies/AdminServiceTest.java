@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class AdminServiceTest {
     @Autowired
     LoginManager loginManager;
+    @Autowired
+    AdminService adminService;
 
     Company company1 = Company.builder().id(1).name("Intel").email("Intel@gmail.com").password("aaabbb").build();
     Company company2 = Company.builder().id(2).name("Applied Materials").email("AMAT@gmail.com").password("aaabbb").build();
@@ -25,7 +27,6 @@ class AdminServiceTest {
         System.out.println("Test 1 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
         assertTrue(adminService.login(email, password));
         System.out.println("Test 1 completed !");
     }
@@ -35,7 +36,8 @@ class AdminServiceTest {
         System.out.println("Test 2 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> adminService.addCompany(company1));
         assertAll(() -> adminService.addCompany(company2));
         System.out.println("Test 2 completed !");
@@ -46,7 +48,8 @@ class AdminServiceTest {
         System.out.println("Test 3 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> adminService.updateCompany(company1));
         System.out.println("Test 3 completed !");
     }
@@ -56,7 +59,8 @@ class AdminServiceTest {
         System.out.println("Test 4 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> adminService.deleteCompany(company1));
         assertAll(() -> adminService.deleteCompany(company2));
         System.out.println("Test 4 completed !");
@@ -67,7 +71,8 @@ class AdminServiceTest {
         System.out.println("Test 5 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> System.out.println(adminService.getAllCompanies()));
         System.out.println("Test 5 completed !");
     }
@@ -77,7 +82,8 @@ class AdminServiceTest {
         System.out.println("Test 6 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> System.out.println(adminService.getOneCompany(1)));
         assertAll(() -> System.out.println(adminService.getOneCompany(2)));
         System.out.println("Test 6 completed !");
@@ -88,7 +94,8 @@ class AdminServiceTest {
         System.out.println("Test 7 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> adminService.addCustomer(customer1));
         assertAll(() -> adminService.addCustomer(customer2));
         System.out.println("Test 7 completed !");
@@ -99,7 +106,8 @@ class AdminServiceTest {
         System.out.println("Test 8 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> adminService.updateCustomer(customer1));
         assertAll(() -> adminService.updateCustomer(customer2));
         System.out.println("Test 8 completed !");
@@ -110,7 +118,8 @@ class AdminServiceTest {
         System.out.println("Test 9 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> adminService.deleteCustomer(customer1));
         assertAll(() -> adminService.deleteCustomer(customer2));
         System.out.println("Test 9 completed !");
@@ -121,7 +130,8 @@ class AdminServiceTest {
         System.out.println("Test 10 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> System.out.println(adminService.getAllCustomers()));
         System.out.println("Test 10 completed !");
     }
@@ -131,7 +141,8 @@ class AdminServiceTest {
         System.out.println("Test 11 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
+        String adminJwt = loginManager.login(email, password, ClientType.ADMIN);
+        System.out.println(adminJwt);
         assertAll(() -> System.out.println(adminService.getOneCustomer(1)));
         assertAll(() -> System.out.println(adminService.getOneCustomer(2)));
         System.out.println("Test 11 completed !");

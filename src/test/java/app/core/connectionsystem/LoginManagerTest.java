@@ -23,6 +23,7 @@ class LoginManagerTest {
     @Test
     void loginCompany() {
         assertAll(() -> loginManager.login("Intel@gmail.com", "aaabbb", clientTypeCompany));
+        System.out.println(loginManager.login("Intel@gmail.com", "aaabbb", clientTypeCompany));
     }
 
     @Test

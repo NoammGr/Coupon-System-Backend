@@ -8,24 +8,26 @@ import app.core.entities.Coupon;
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/company/api")
+@CrossOrigin
 public class CompanyController {
     @Autowired
-    LoginManager loginManager = new LoginManager();
+    LoginManager loginManager;
     @Autowired
     CompanyService companyService;
 
-    @PostMapping(path = "/login")
-    public CompanyService login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
+    public String login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
         try {
-            return (CompanyService) loginManager.login(email, password, ClientType.COMPANY);
+            return (String) loginManager.login(email, password, ClientType.COMPANY);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Login failed- " + e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 

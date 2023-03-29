@@ -28,29 +28,29 @@ public class CouponSystemProjectNoamApplication {
         return new OpenAPI().info(new Info().title("title").version("version").description("description")).addSecurityItem(new SecurityRequirement().addList("my security")).components(new Components().addSecuritySchemes("my security", new SecurityScheme().name("my security").type(SecurityScheme.Type.HTTP).scheme("bearer")));
     }
 
-    @Bean
-    FilterRegistrationBean<AdminAuthenticationFilter> AdminAuthenticationFilter(AdminJwtUtil adminJwtUtil) {
-        FilterRegistrationBean<AdminAuthenticationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new AdminAuthenticationFilter(adminJwtUtil));
-        regBean.addUrlPatterns("/admin/*");
-        return regBean;
-    }
+//    @Bean
+//    FilterRegistrationBean<AdminAuthenticationFilter> AdminAuthenticationFilter(AdminJwtUtil adminJwtUtil) {
+//        FilterRegistrationBean<AdminAuthenticationFilter> regBean = new FilterRegistrationBean<>();
+//        regBean.setFilter(new AdminAuthenticationFilter(adminJwtUtil));
+//        regBean.addUrlPatterns("/admin/*");
+//        return regBean;
+//    }
 
-    @Bean
-    FilterRegistrationBean<CompanyAuthenticationFilter> CompanyAuthenticationFilter(CompanyJwtUtil companyJwtUtil) {
-        FilterRegistrationBean<CompanyAuthenticationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new CompanyAuthenticationFilter(companyJwtUtil));
-        regBean.addUrlPatterns("/company/*");
-        return regBean;
-    }
+//    @Bean
+//    FilterRegistrationBean<CompanyAuthenticationFilter> CompanyAuthenticationFilter(CompanyJwtUtil companyJwtUtil) {
+//        FilterRegistrationBean<CompanyAuthenticationFilter> regBean = new FilterRegistrationBean<>();
+//        regBean.setFilter(new CompanyAuthenticationFilter(companyJwtUtil));
+//        regBean.addUrlPatterns("/company/*");
+//        return regBean;
+//    }
 
-    @Bean
-    FilterRegistrationBean<CustomerAuthenticationFilter> CustomerAuthenticationFilter(CustomerJwtUtil customerJwtUtil) {
-        FilterRegistrationBean<CustomerAuthenticationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new CustomerAuthenticationFilter(customerJwtUtil));
-        regBean.addUrlPatterns("/customer/*");
-        return regBean;
-    }
+//    @Bean
+//    FilterRegistrationBean<CustomerAuthenticationFilter> CustomerAuthenticationFilter(CustomerJwtUtil customerJwtUtil) {
+//        FilterRegistrationBean<CustomerAuthenticationFilter> regBean = new FilterRegistrationBean<>();
+//        regBean.setFilter(new CustomerAuthenticationFilter(customerJwtUtil));
+//        regBean.addUrlPatterns("/customer/*");
+//        return regBean;
+//    }
 
     @Bean
     FilterRegistrationBean<AdminAuthorizationFilter> adminAuthFilter(AdminJwtUtil adminJwtUtil) {

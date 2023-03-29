@@ -7,26 +7,28 @@ import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/admin/api")
+@CrossOrigin
 public class AdminController {
     @Autowired
-    private LoginManager loginManager = new LoginManager();
-
+    LoginManager loginManager;
     @Autowired
     AdminService adminService;
 
-    @PostMapping(path = "/login")
-    public AdminService login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
+    public String login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
         try {
-            AdminService adminService = (AdminService) loginManager.login(email, password, ClientType.ADMIN);
-            return adminService;
-        } catch (CouponSystemException e) {
-            throw new CouponSystemException("Login failed- " + e);
+            String token = loginManager.login(email, password, ClientType.ADMIN);
+            System.out.println(token);
+            return token;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 
