@@ -27,17 +27,9 @@ public class CouponSystemProjectNoamApplication {
     }
 
     @Bean
-    FilterRegistrationBean<AuthenticationFilter> authenticationFilter(JwtUtil jwtUtil) {
-        FilterRegistrationBean<AuthenticationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new AuthenticationFilter(jwtUtil));
-        regBean.addUrlPatterns("/api/*");
-        return regBean;
-    }
-
-    @Bean
     FilterRegistrationBean<AdminAuthorizationFilter> adminAuthFilter(JwtUtil jwtUtil) {
         FilterRegistrationBean<AdminAuthorizationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new AdminAuthorizationFilter());
+        regBean.setFilter(new AdminAuthorizationFilter(jwtUtil));
         regBean.addUrlPatterns("/api/admin/*");
         return regBean;
     }
@@ -45,7 +37,7 @@ public class CouponSystemProjectNoamApplication {
     @Bean
     FilterRegistrationBean<CompanyAuthorizationFilter> companyAuthFilter(JwtUtil jwtUtil) {
         FilterRegistrationBean<CompanyAuthorizationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new CompanyAuthorizationFilter());
+        regBean.setFilter(new CompanyAuthorizationFilter(jwtUtil));
         regBean.addUrlPatterns("/api/company/*");
         return regBean;
     }
@@ -53,9 +45,8 @@ public class CouponSystemProjectNoamApplication {
     @Bean
     FilterRegistrationBean<CustomerAuthorizationFilter> CustomerAuthFilter(JwtUtil jwtUtil) {
         FilterRegistrationBean<CustomerAuthorizationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new CustomerAuthorizationFilter());
+        regBean.setFilter(new CustomerAuthorizationFilter(jwtUtil));
         regBean.addUrlPatterns("/api/customer/*");
         return regBean;
     }
-
 }
