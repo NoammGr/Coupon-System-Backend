@@ -1,5 +1,6 @@
 package app.core.controllers;
 
+import app.core.auth.UserCredentials;
 import app.core.connectionsystem.ClientType;
 import app.core.connectionsystem.LoginManager;
 import app.core.entities.Company;
@@ -14,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/admin/api")
+@RequestMapping(path = "/api/admin")
 @CrossOrigin
 public class AdminController {
     @Autowired
@@ -22,9 +23,9 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    public String login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
+    public String login(@RequestBody UserCredentials userCredentials) throws CouponSystemException {
         try {
-            String token = loginManager.login(email, password, ClientType.ADMIN);
+            String token = loginManager.login(userCredentials);
             System.out.println(token);
             return token;
         } catch (Exception e) {

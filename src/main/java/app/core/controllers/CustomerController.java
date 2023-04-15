@@ -1,5 +1,6 @@
 package app.core.controllers;
 
+import app.core.auth.UserCredentials;
 import app.core.connectionsystem.ClientType;
 import app.core.connectionsystem.LoginManager;
 import app.core.entities.Category;
@@ -16,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/customer/api")
+@RequestMapping(path = "/api/customer")
 @CrossOrigin
 public class CustomerController {
     @Autowired
@@ -24,9 +25,9 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    public String login(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
+    public String login(@RequestBody UserCredentials userCredentials) throws CouponSystemException {
         try {
-            return (String) loginManager.login(email, password, ClientType.CUSTOMER);
+            return (String) loginManager.login(userCredentials);
         } catch (CouponSystemException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

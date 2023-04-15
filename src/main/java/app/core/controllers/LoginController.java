@@ -1,5 +1,6 @@
 package app.core.controllers;
 
+import app.core.auth.UserCredentials;
 import app.core.connectionsystem.ClientType;
 import app.core.connectionsystem.LoginManager;
 import app.core.exceptions.CouponSystemException;
@@ -9,37 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping(path = "/system")
+@RequestMapping()
 @CrossOrigin
 public class LoginController {
     @Autowired
     LoginManager loginManager;
 
-    @PostMapping(path = "/admin/login")
-    public String adminLogin(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
+    @PostMapping(path = "/login")
+    public String login(@RequestBody UserCredentials userCredentials) {
         try {
-            return loginManager.login(email, password, ClientType.ADMIN);
+            return loginManager.login(userCredentials);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
-
-    @PostMapping(path = "/company/login")
-    public String companyLogin(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
-        try {
-            return (String) loginManager.login(email, password, ClientType.COMPANY);
-        } catch (CouponSystemException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
-    @PostMapping(path = "/customer/login")
-    public String customerLogin(@RequestParam String email, @RequestParam String password) throws CouponSystemException {
-        try {
-            return (String) loginManager.login(email, password, ClientType.CUSTOMER);
-        } catch (CouponSystemException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
 }

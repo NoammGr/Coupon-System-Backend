@@ -1,6 +1,6 @@
 package app.core.servcies;
 
-import app.core.auth.CompanyJwtUtil;
+import app.core.auth.UserCredentials;
 import app.core.connectionsystem.ClientType;
 import app.core.connectionsystem.LoginManager;
 import app.core.entities.Category;
@@ -23,8 +23,6 @@ class CompanyServiceTest {
     CompanyService companyService1;
     @Autowired
     CompanyService companyService2;
-    @Autowired
-    CompanyJwtUtil companyJwtUtil;
 
     Company company1 = Company.builder().id(1).name("Intel").email("Intel@gmail.com").password("aaabbb").build();
     Company company2 = Company.builder().id(2).name("Applied Materials").email("AMAT@gmail.com").password("aaabbb").build();
@@ -32,7 +30,7 @@ class CompanyServiceTest {
     Category category1 = Category.Food;
     Category category2 = Category.Electricity;
     String startDate = "2023-01-15";
-    String endDate = "2023-03-27";
+    String endDate = "2023-05-27";
     Date start = Date.valueOf(startDate);
     Date end = Date.valueOf(endDate);
     Coupon coupon = Coupon.builder().id(0).company(company1).category(category).title("Discount on supermarket ! ").description("60% less on price ! ").startDate(start).endDate(end).amount(200).price(1000).image("image").build();
@@ -47,12 +45,14 @@ class CompanyServiceTest {
         System.out.println("Test 1 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertTrue(companyService1.login(email, password));
         String email1 = "AMAT@gmail.com";
         String password1 = "aaabbb";
-        String companyJwt2 = loginManager.login(email1, password1, ClientType.COMPANY);
+        UserCredentials userCredentials2 = UserCredentials.builder().email(email1).password(password1).clientType(ClientType.COMPANY).build();
+        String companyJwt2 = loginManager.login(userCredentials2);
         System.out.println(companyJwt2);
         assertTrue(companyService2.login(email1, password1));
         System.out.println("Test 1 completed !");
@@ -63,12 +63,13 @@ class CompanyServiceTest {
         System.out.println("Test 2 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         String email1 = "AMAT@gmail.com";
         String password1 = "aaabbb";
-        String companyJwt2 = loginManager.login(email1, password1, ClientType.COMPANY);
-        System.out.println(companyJwt2);
+        UserCredentials userCredentials1 = UserCredentials.builder().email(email1).password(password1).clientType(ClientType.COMPANY).build();
+        String companyJwt2 = loginManager.login(userCredentials);
         assertAll(() -> companyService1.addCoupon(coupon));
         assertAll(() -> companyService1.addCoupon(coupon1));
         assertAll(() -> companyService1.addCoupon(coupon2));
@@ -83,7 +84,8 @@ class CompanyServiceTest {
         System.out.println("Test 3 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertAll(() -> companyService1.updateCoupon(coupon));
         System.out.println("Test 3 completed !");
@@ -94,7 +96,8 @@ class CompanyServiceTest {
         System.out.println("Test 4 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertAll(() -> companyService1.deleteCoupon(coupon));
         System.out.println("Test 4 completed !");
@@ -105,7 +108,8 @@ class CompanyServiceTest {
         System.out.println("Test 5 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertAll(() -> System.out.println(companyService1.getCompanyCoupons()));
         System.out.println("Test 5 completed !");
@@ -116,7 +120,8 @@ class CompanyServiceTest {
         System.out.println("Test 6 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertAll(() -> System.out.println(companyService1.getCompanyCoupons(category)));
         System.out.println("Test 6 completed !");
@@ -127,7 +132,8 @@ class CompanyServiceTest {
         System.out.println("Test 7 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertAll(() -> System.out.println(companyService1.getCompanyCoupons(1001)));
         System.out.println("Test 7 completed !");
@@ -138,7 +144,8 @@ class CompanyServiceTest {
         System.out.println("Test 8 started !");
         String email = "Intel@gmail.com";
         String password = "aaabbb";
-        String companyJwt1 = loginManager.login(email, password, ClientType.COMPANY);
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
+        String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
         assertAll(() -> System.out.println(companyService1.getCompanyDetails()));
         System.out.println("Test 8 completed !");

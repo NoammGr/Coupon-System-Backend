@@ -1,8 +1,6 @@
 package app.core.connectionsystem;
 
-import app.core.auth.AdminJwtUtil;
-import app.core.auth.CompanyJwtUtil;
-import app.core.auth.CustomerJwtUtil;
+import app.core.auth.*;
 import app.core.entities.Admin;
 import app.core.entities.Company;
 import app.core.entities.Customer;
@@ -20,39 +18,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginManager {
     @Autowired
-    AdminJwtUtil adminJwtUtil;
+    JwtUtil jwtUtil;
     @Autowired
     AdminService adminService;
     @Autowired
-    CompanyJwtUtil companyJwtUtil;
+    CompanyRepository companyRepository;
     @Autowired
     CompanyService companyService;
     @Autowired
-    CompanyRepository companyRepository;
+    CustomerRepository customerRepository;
     @Autowired
     CustomerService customerService;
-    @Autowired
-    CustomerJwtUtil customerJwtUtil;
-    @Autowired
-    CustomerRepository customerRepository;
 
-    public String login(String email, String password, ClientType client) throws CouponSystemException {
-        switch (client) {
+    public String login(UserCredentials userCredentials) throws CouponSystemException {
+        switch (userCredentials.getClientType()) {
             case ADMIN -> {
                 Admin admin = Admin.builder().email("admin@admin.com").password("admin").build();
-                if (email.equals(admin.getEmail()) && password.equals(admin.getPassword())) {
-                    adminService.login(email, password);
-                    return adminJwtUtil.generateToken(admin);
+                if (userCredentials.getEmail().equals(admin.getEmail()) && userCredentials.getPassword().equals(admin.getPassword())) {
+                    adminService.login(userCredentials.getEmail(), userCredentials.getPassword());
+                    return jwtUtil.generateToken(userCredentials);
                 } else {
                     throw new CouponSystemException("Wrong email or password ");
                 }
             }
             case COMPANY -> {
-                Company company = companyRepository.findByEmail(email);
+                Company company = companyRepository.findByEmail(userCredentials.getEmail());
                 if (company != null) {
-                    if (password.equals(company.getPassword())) {
-                        companyService.login(email, password);
-                        return companyJwtUtil.generateToken(company);
+                    if (userCredentials.getPassword().equals(company.getPassword())) {
+                        companyService.login(userCredentials.getEmail(), userCredentials.getPassword());
+                        return jwtUtil.generateToken(userCredentials);
                     } else {
                         throw new CouponSystemException("Wrong password ");
                     }
@@ -61,18 +55,16 @@ public class LoginManager {
                 }
             }
             case CUSTOMER -> {
-                if (customerService.login(email, password)) {
-                    Customer customer = customerRepository.findByEmail(email);
-                    if (customer != null) {
-                        if (password.equals(customer.getPassword())) {
-                            customerService.login(email, password);
-                            return customerJwtUtil.generateToken(customer);
-                        } else {
-                            throw new CouponSystemException("Wrong password ");
-                        }
+                Customer customer = customerRepository.findByEmail(userCredentials.getEmail());
+                if (customer != null) {
+                    if (userCredentials.getPassword().equals(customer.getPassword())) {
+                        customerService.login(userCredentials.getEmail(), userCredentials.getPassword());
+                        return jwtUtil.generateToken(userCredentials);
                     } else {
-                        throw new CouponSystemException("Wrong email");
+                        throw new CouponSystemException("Wrong password ");
                     }
+                } else {
+                    throw new CouponSystemException("Wrong email");
                 }
             }
         }
