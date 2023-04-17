@@ -25,8 +25,6 @@ public class CompanyAuthorizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("Company filter started !");
-
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
@@ -51,7 +49,5 @@ public class CompanyAuthorizationFilter implements Filter {
             httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer \"general api\"");
             httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "You need to login !");
         }
-
-        System.out.println("Company filter ended !");
     }
 }
