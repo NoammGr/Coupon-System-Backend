@@ -30,18 +30,25 @@ public class CustomerAuthorizationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
         String auth = httpServletRequest.getHeader("Authorization");
-        StringTokenizer stringTokenizer = new StringTokenizer(auth);
-        String jwt = stringTokenizer.nextToken();
+        if (auth != null) {
 
-        UserCredentials userCredentials = jwtUtil.extractUser(jwt);
+            StringTokenizer stringTokenizer = new StringTokenizer(auth);
+            String schema = stringTokenizer.nextToken();
+            String jwt = stringTokenizer.nextToken();
 
-        httpServletRequest.setAttribute("customer", userCredentials);
+            UserCredentials userCredentials = jwtUtil.extractUser(jwt);
 
-        if (userCredentials.getClientType() == ClientType.CUSTOMER) {
-            chain.doFilter(httpServletRequest, httpServletResponse);
+            httpServletRequest.setAttribute("customer", userCredentials);
+
+            if (userCredentials.getClientType() == ClientType.CUSTOMER) {
+                chain.doFilter(httpServletRequest, httpServletResponse);
+            } else {
+                httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer \"general api\"");
+                httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "only customers are authorized !");
+            }
         } else {
             httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer \"general api\"");
-            httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "only customers are authorized !");
+            httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "You need to login !");
         }
 
         System.out.println("Customer filter ended !");

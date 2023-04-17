@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/company")
+@RequestMapping(path = "/company/api")
 @CrossOrigin
 public class CompanyController {
     @Autowired

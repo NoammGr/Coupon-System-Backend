@@ -31,18 +31,25 @@ public class AdminAuthorizationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
         String auth = httpServletRequest.getHeader("Authorization");
-        StringTokenizer stringTokenizer = new StringTokenizer(auth);
-        String jwt = stringTokenizer.nextToken();
+        if (auth != null) {
 
-        UserCredentials userCredentials = jwtUtil.extractUser(jwt);
+            StringTokenizer stringTokenizer = new StringTokenizer(auth);
+            String schema = stringTokenizer.nextToken();
+            String jwt = stringTokenizer.nextToken();
 
-        httpServletRequest.setAttribute("admin", userCredentials);
+            UserCredentials userCredentials = jwtUtil.extractUser(jwt);
 
-        if (userCredentials.getClientType() == ClientType.ADMIN) {
-            chain.doFilter(httpServletRequest, httpServletResponse);
+            httpServletRequest.setAttribute("admin", userCredentials);
+
+            if (userCredentials.getClientType() == ClientType.ADMIN) {
+                chain.doFilter(httpServletRequest, httpServletResponse);
+            } else {
+                httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer \"general api\"");
+                httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "only admins are authorized !");
+            }
         } else {
             httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer \"general api\"");
-            httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "only admins are authorized !");
+            httpServletResponse.sendError(HttpStatus.FORBIDDEN.value(), "You need to login !");
         }
 
         System.out.println("Admin filter ended !");

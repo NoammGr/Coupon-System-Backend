@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/admin")
+@RequestMapping(path = "/admin/api")
 @CrossOrigin
 public class AdminController {
     @Autowired
