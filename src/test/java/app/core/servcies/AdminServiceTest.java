@@ -1,6 +1,6 @@
 package app.core.servcies;
 
-import app.core.auth.UserCredentials;
+import app.core.security.UserCredentials;
 import app.core.connectionsystem.ClientType;
 import app.core.connectionsystem.LoginManager;
 import app.core.entities.Company;

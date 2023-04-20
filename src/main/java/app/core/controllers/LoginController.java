@@ -1,9 +1,7 @@
 package app.core.controllers;
 
-import app.core.auth.UserCredentials;
-import app.core.connectionsystem.ClientType;
+import app.core.security.UserCredentials;
 import app.core.connectionsystem.LoginManager;
-import app.core.exceptions.CouponSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

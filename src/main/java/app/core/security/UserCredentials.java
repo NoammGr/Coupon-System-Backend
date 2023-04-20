@@ -1,4 +1,4 @@
-package app.core.auth;
+package app.core.security;
 
 import app.core.connectionsystem.ClientType;
 import lombok.AllArgsConstructor;

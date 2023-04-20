@@ -1,24 +1,22 @@
 package app.core.connectionsystem;
 
-import app.core.auth.*;
 import app.core.entities.Admin;
 import app.core.entities.Company;
 import app.core.entities.Customer;
 import app.core.repositories.CompanyRepository;
 import app.core.repositories.CustomerRepository;
+import app.core.security.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.AdminService;
-import app.core.servcies.ClientService;
 import app.core.servcies.CompanyService;
 import app.core.servcies.CustomerService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LoginManager {
-    @Autowired
-    JwtUtil jwtUtil;
+
     @Autowired
     AdminService adminService;
     @Autowired
@@ -36,7 +34,7 @@ public class LoginManager {
                 Admin admin = Admin.builder().email("admin@admin.com").password("admin").build();
                 if (userCredentials.getEmail().equals(admin.getEmail()) && userCredentials.getPassword().equals(admin.getPassword())) {
                     adminService.login(userCredentials.getEmail(), userCredentials.getPassword());
-                    return jwtUtil.generateToken(userCredentials);
+                    return "null1";
                 } else {
                     throw new CouponSystemException("Wrong email or password ");
                 }
@@ -46,7 +44,7 @@ public class LoginManager {
                 if (company != null) {
                     if (userCredentials.getPassword().equals(company.getPassword())) {
                         companyService.login(userCredentials.getEmail(), userCredentials.getPassword());
-                        return jwtUtil.generateToken(userCredentials);
+                        return "null2";
                     } else {
                         throw new CouponSystemException("Wrong password ");
                     }
@@ -59,7 +57,7 @@ public class LoginManager {
                 if (customer != null) {
                     if (userCredentials.getPassword().equals(customer.getPassword())) {
                         customerService.login(userCredentials.getEmail(), userCredentials.getPassword());
-                        return jwtUtil.generateToken(userCredentials);
+                        return "null3";
                     } else {
                         throw new CouponSystemException("Wrong password ");
                     }

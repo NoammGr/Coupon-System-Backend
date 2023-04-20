@@ -1,7 +1,6 @@
 package app.core.controllers;
 
-import app.core.auth.UserCredentials;
-import app.core.connectionsystem.ClientType;
+import app.core.security.UserCredentials;
 import app.core.connectionsystem.LoginManager;
 import app.core.entities.Company;
 import app.core.entities.Customer;
