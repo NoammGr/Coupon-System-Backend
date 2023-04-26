@@ -48,13 +48,13 @@ class CompanyServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
         String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
-        assertTrue(companyService1.login(email, password));
+        assertTrue(companyService1.login(userCredentials));
         String email1 = "AMAT@gmail.com";
         String password1 = "aaabbb";
         UserCredentials userCredentials2 = UserCredentials.builder().email(email1).password(password1).clientType(ClientType.COMPANY).build();
         String companyJwt2 = loginManager.login(userCredentials2);
         System.out.println(companyJwt2);
-        assertTrue(companyService2.login(email1, password1));
+        assertTrue(companyService2.login(userCredentials2));
         System.out.println("Test 1 completed !");
     }
 
@@ -70,12 +70,12 @@ class CompanyServiceTest {
         String password1 = "aaabbb";
         UserCredentials userCredentials1 = UserCredentials.builder().email(email1).password(password1).clientType(ClientType.COMPANY).build();
         String companyJwt2 = loginManager.login(userCredentials);
-        assertAll(() -> companyService1.addCoupon(coupon));
-        assertAll(() -> companyService1.addCoupon(coupon1));
-        assertAll(() -> companyService1.addCoupon(coupon2));
-        assertAll(() -> companyService2.addCoupon(coupon3));
-        assertAll(() -> companyService2.addCoupon(coupon4));
-        assertAll(() -> companyService2.addCoupon(coupon5));
+        assertAll(() -> companyService1.addCoupon(coupon, 1));
+        assertAll(() -> companyService1.addCoupon(coupon1, 1));
+        assertAll(() -> companyService1.addCoupon(coupon2, 1));
+        assertAll(() -> companyService2.addCoupon(coupon3, 2));
+        assertAll(() -> companyService2.addCoupon(coupon4, 2));
+        assertAll(() -> companyService2.addCoupon(coupon5, 2));
         System.out.println("Test 2 completed !");
     }
 
@@ -111,7 +111,7 @@ class CompanyServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
         String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
-        assertAll(() -> System.out.println(companyService1.getCompanyCoupons()));
+        assertAll(() -> System.out.println(companyService1.getCompanyCoupons(1)));
         System.out.println("Test 5 completed !");
     }
 
@@ -123,7 +123,7 @@ class CompanyServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
         String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
-        assertAll(() -> System.out.println(companyService1.getCompanyCoupons(category)));
+        assertAll(() -> System.out.println(companyService1.getCompanyCoupons(1, category)));
         System.out.println("Test 6 completed !");
     }
 
@@ -135,7 +135,7 @@ class CompanyServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
         String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
-        assertAll(() -> System.out.println(companyService1.getCompanyCoupons(1001)));
+        assertAll(() -> System.out.println(companyService1.getCompanyCoupons(1, 1001)));
         System.out.println("Test 7 completed !");
     }
 
@@ -147,7 +147,7 @@ class CompanyServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
         String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
-        assertAll(() -> System.out.println(companyService1.getCompanyDetails()));
+        assertAll(() -> System.out.println(companyService1.getCompanyDetails(1)));
         System.out.println("Test 8 completed !");
     }
 }

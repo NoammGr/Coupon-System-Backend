@@ -28,7 +28,7 @@ class CustomerServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.CUSTOMER).build();
         String customerJwt = loginManager.login(userCredentials);
         System.out.println(customerJwt);
-        assertTrue(customerService.login(email, password));
+        assertTrue(customerService.login(userCredentials));
         System.out.println("Test 1 completed !");
     }
 
@@ -40,11 +40,11 @@ class CustomerServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.CUSTOMER).build();
         String customerJwt = loginManager.login(userCredentials);
         System.out.println(customerJwt);
-        assertAll(() -> customerService.purchaseCoupon(1));
-        assertAll(() -> customerService.purchaseCoupon(2));
-        assertAll(() -> customerService.purchaseCoupon(3));
-        assertAll(() -> customerService.purchaseCoupon(4));
-        assertAll(() -> customerService.purchaseCoupon(5));
+        assertAll(() -> customerService.purchaseCoupon(1, 1));
+        assertAll(() -> customerService.purchaseCoupon(2, 1));
+        assertAll(() -> customerService.purchaseCoupon(3, 1));
+        assertAll(() -> customerService.purchaseCoupon(4, 1));
+        assertAll(() -> customerService.purchaseCoupon(5, 1));
         System.out.println("Test 2 completed !");
     }
 
@@ -56,7 +56,7 @@ class CustomerServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.CUSTOMER).build();
         String customerJwt = loginManager.login(userCredentials);
         System.out.println(customerJwt);
-        assertAll(() -> System.out.println(customerService.getCustomerCoupon()));
+        assertAll(() -> System.out.println(customerService.getCustomerCoupon(1)));
         System.out.println("Test 3 completed !");
     }
 
@@ -68,7 +68,7 @@ class CustomerServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.CUSTOMER).build();
         String customerJwt = loginManager.login(userCredentials);
         System.out.println(customerJwt);
-        assertAll(() -> System.out.println(customerService.getCustomerCoupon(category)));
+        assertAll(() -> System.out.println(customerService.getCustomerCoupon(1, category)));
         System.out.println("Test 4 completed !");
     }
 
@@ -80,7 +80,7 @@ class CustomerServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.CUSTOMER).build();
         String customerJwt = loginManager.login(userCredentials);
         System.out.println(customerJwt);
-        assertAll(() -> System.out.println(customerService.getCustomerCoupon(1001)));
+        assertAll(() -> System.out.println(customerService.getCustomerCoupon(1,1001)));
         System.out.println("Test 5 completed !");
     }
 
@@ -92,7 +92,7 @@ class CustomerServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.CUSTOMER).build();
         String customerJwt = loginManager.login(userCredentials);
         System.out.println(customerJwt);
-        assertAll(() -> System.out.println(customerService.getCustomerDetails()));
+        assertAll(() -> System.out.println(customerService.getCustomerDetails(1)));
         System.out.println("Test 6 completed !");
     }
 }

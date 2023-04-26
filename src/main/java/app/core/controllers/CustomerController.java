@@ -34,45 +34,45 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/coupon-purchase")
-    public void purchaseCoupon(@RequestParam int id) throws CouponSystemException {
+    public void purchaseCoupon(@RequestParam int id, @RequestParam int customerId) throws CouponSystemException {
         try {
-            customerService.purchaseCoupon(id);
+            customerService.purchaseCoupon(id, customerId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("error in purchase coupon method- " + e);
         }
     }
 
     @GetMapping(path = "/get-customer-coupons")
-    public List<Coupon> getCustomerCoupon() throws CouponSystemException {
+    public List<Coupon> getCustomerCoupon(@RequestParam int customerId) throws CouponSystemException {
         try {
-            return customerService.getCustomerCoupon();
+            return customerService.getCustomerCoupon(customerId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all customer coupons method- " + e);
         }
     }
 
     @GetMapping("/get-coupons-category")
-    public List<Coupon> getCustomerCoupon(@RequestParam Category category) throws CouponSystemException {
+    public List<Coupon> getCustomerCoupon(@RequestParam Category category, @RequestParam int customerId) throws CouponSystemException {
         try {
-            return customerService.getCustomerCoupon(category);
+            return customerService.getCustomerCoupon(customerId, category);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all customer coupons method- " + e);
         }
     }
 
     @GetMapping("/get-coupons-maxPrice")
-    public List<Coupon> getCustomerCoupon(@RequestParam double maxPrice) throws CouponSystemException {
+    public List<Coupon> getCustomerCoupon(@RequestParam double maxPrice, @RequestParam int customerId) throws CouponSystemException {
         try {
-            return customerService.getCustomerCoupon(maxPrice);
+            return customerService.getCustomerCoupon(customerId, maxPrice);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all customer coupons method- " + e);
         }
     }
 
     @GetMapping("/get-customer-details")
-    public Customer getCustomerDetails() throws CouponSystemException {
+    public Customer getCustomerDetails(int customerId) throws CouponSystemException {
         try {
-            return customerService.getCustomerDetails();
+            return customerService.getCustomerDetails(customerId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all customer details method- " + e);
         }

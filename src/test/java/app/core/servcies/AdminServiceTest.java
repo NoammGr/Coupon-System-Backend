@@ -28,7 +28,8 @@ class AdminServiceTest {
         System.out.println("Test 1 started !");
         String email = "admin@admin.com";
         String password = "admin";
-        assertTrue(adminService.login(email, password));
+        UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.ADMIN).build();
+        assertTrue(adminService.login(userCredentials));
         System.out.println("Test 1 completed !");
     }
 

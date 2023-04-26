@@ -1,6 +1,8 @@
 package app.core.servcies;
 
+import app.core.auth.UserCredentials;
+
 public abstract class ClientService {
 
-    abstract boolean login(String email, String password);
+    abstract boolean login(UserCredentials userCredentials);
 }

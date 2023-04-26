@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import app.core.auth.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,9 @@ public class AdminService extends ClientService {
     private CustomerRepository customerRepository;
 
     @Override
-    public boolean login(String email, String password) throws CouponSystemException {
-        if (email.equals("admin@admin.com") && password.equals("admin")) {
-            System.out.println("Welcome : " + email + " !");
+    public boolean login(UserCredentials userCredentials) throws CouponSystemException {
+        if (userCredentials.getEmail().equals("admin@admin.com") && userCredentials.getPassword().equals("admin")) {
+            System.out.println("Welcome : " + userCredentials.getEmail() + " !");
             return true;
         }
         throw new CouponSystemException("Wrong email or password please try again !");

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import app.core.auth.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ import app.core.repositories.CustomerRepository;
 @Transactional
 public class CustomerService extends ClientService {
 
-    private Customer customer;
+//    private Customer customer;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -29,22 +30,15 @@ public class CustomerService extends ClientService {
     private CustomerRepository customerRepository;
 
     @Override
-    public boolean login(String email, String password) throws CouponSystemException {
-        if (customerRepository.existsByEmailAndPassword(email, password)) {
-            this.customer = customerRepository.findByEmailAndPassword(email, password);
-            System.out.println("Welcome : " + email + " !");
-            return true;
-        }
-        throw new CouponSystemException("Wrong email or password please try again !");
+    public boolean login(UserCredentials userCredentials) throws CouponSystemException {
+        return customerRepository.findByEmail(userCredentials.getEmail()) != null;
     }
 
-    public void purchaseCoupon(int id) throws CouponSystemException {
-        Coupon tempCoupon = couponRepository.findById(id)
-                .orElseThrow(() -> new CouponSystemException("Coupon not found"));
-        Customer customer = customerRepository.findById(this.customer.getId())
-                .orElseThrow(() -> new CouponSystemException("Customer not found"));
+    public void purchaseCoupon(int id, int customerId) throws CouponSystemException {
+        Coupon tempCoupon = couponRepository.findById(id).orElseThrow(() -> new CouponSystemException("Coupon not found"));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CouponSystemException("Customer not found"));
         java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        if (couponRepository.existsByCustomersIdAndId(this.customer.getId(), tempCoupon.getId())) {
+        if (couponRepository.existsByCustomersIdAndId(customerId, tempCoupon.getId())) {
             throw new CouponSystemException("You cannot buy the same coupon twice !");
         }
         if (tempCoupon.getEndDate().before(date)) {
@@ -57,38 +51,31 @@ public class CustomerService extends ClientService {
         tempCoupon.setAmount(tempCoupon.getAmount() - 1);
     }
 
-    public List<Coupon> getCustomerCoupon() throws CouponSystemException {
+    public List<Coupon> getCustomerCoupon(int customerId) throws CouponSystemException {
         try {
-            return couponRepository.findByCustomersId(this.customer.getId());
+            return couponRepository.findByCustomersId(customerId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Customer coupons doesn't found !" + e);
         }
     }
 
-    public List<Coupon> getCustomerCoupon(Category category) throws CouponSystemException {
+    public List<Coupon> getCustomerCoupon(int customerId, Category category) throws CouponSystemException {
         try {
-            return couponRepository.findByCustomersIdAndCategory(this.customer.getId(), category);
+            return couponRepository.findByCustomersIdAndCategory(customerId, category);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Customer coupons doesn't found !" + e);
         }
     }
 
-    public List<Coupon> getCustomerCoupon(double maxPrice) throws CouponSystemException {
+    public List<Coupon> getCustomerCoupon(int customerId, double maxPrice) throws CouponSystemException {
         try {
-            return couponRepository.findByCustomersIdAndPriceLessThan(this.customer.getId(), maxPrice);
+            return couponRepository.findByCustomersIdAndPriceLessThan(customerId, maxPrice);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Customer coupons doesn't found !" + e);
         }
     }
 
-    public Customer getCustomerDetails() throws CouponSystemException {
-        List<Coupon> coupons;
-        try {
-            coupons = new ArrayList<>(couponRepository.findAllCouponsByCustomersId(this.customer.getId()));
-        } catch (CouponSystemException e) {
-            throw new CouponSystemException("Customer coupons doesn't found !" + e);
-        }
-        this.customer.setCoupons(coupons);
-        return this.customer;
+    public Customer getCustomerDetails(int customerId) throws CouponSystemException {
+        return customerRepository.findById(customerId).orElseThrow(() -> new CouponSystemException("Customer not found !"));
     }
 }

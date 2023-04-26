@@ -35,7 +35,7 @@ public class LoginManager {
             case ADMIN -> {
                 Admin admin = Admin.builder().email("admin@admin.com").password("admin").build();
                 if (userCredentials.getEmail().equals(admin.getEmail()) && userCredentials.getPassword().equals(admin.getPassword())) {
-                    adminService.login(userCredentials.getEmail(), userCredentials.getPassword());
+                    adminService.login(userCredentials);
                     return jwtUtil.generateToken(userCredentials);
                 } else {
                     throw new CouponSystemException("Wrong email or password ");
@@ -45,7 +45,7 @@ public class LoginManager {
                 Company company = companyRepository.findByEmail(userCredentials.getEmail());
                 if (company != null) {
                     if (userCredentials.getPassword().equals(company.getPassword())) {
-                        companyService.login(userCredentials.getEmail(), userCredentials.getPassword());
+                        companyService.login(userCredentials);
                         return jwtUtil.generateToken(userCredentials);
                     } else {
                         throw new CouponSystemException("Wrong password ");
@@ -58,7 +58,7 @@ public class LoginManager {
                 Customer customer = customerRepository.findByEmail(userCredentials.getEmail());
                 if (customer != null) {
                     if (userCredentials.getPassword().equals(customer.getPassword())) {
-                        customerService.login(userCredentials.getEmail(), userCredentials.getPassword());
+                        customerService.login(userCredentials);
                         return jwtUtil.generateToken(userCredentials);
                     } else {
                         throw new CouponSystemException("Wrong password ");

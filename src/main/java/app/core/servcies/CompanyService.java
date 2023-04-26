@@ -1,5 +1,6 @@
 package app.core.servcies;
 
+import app.core.auth.UserCredentials;
 import app.core.entities.Category;
 import app.core.entities.Company;
 import app.core.entities.Coupon;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Transactional
 public class CompanyService extends ClientService {
 
-    private Company company;
+//    private Company company;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -27,16 +28,11 @@ public class CompanyService extends ClientService {
     private CouponRepository couponRepository;
 
     @Override
-    public boolean login(String email, String password) throws CouponSystemException {
-        if (companyRepository.existsByEmailAndPassword(email, password)) {
-            this.company = companyRepository.findByEmailAndPassword(email, password);
-            System.out.println("Welcome : " + email + " !");
-            return true;
-        }
-        throw new CouponSystemException("Wrong email or password please try again !");
+    public boolean login(UserCredentials userCredentials) throws CouponSystemException {
+        return companyRepository.findByEmail(userCredentials.getEmail()) != null;
     }
 
-    public void addCoupon(Coupon coupon) throws CouponSystemException {
+    public void addCoupon(Coupon coupon, int companyId) throws CouponSystemException {
         Optional<Coupon> optional = couponRepository.findById(coupon.getId());
         if (optional.isEmpty()) {
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -46,6 +42,8 @@ public class CompanyService extends ClientService {
             if (couponRepository.existsByCompanyIdAndTitle(coupon.getCompany().getId(), coupon.getTitle())) {
                 throw new CouponSystemException("Check the coupon name and try again !");
             }
+            Company company = Company.builder().id(companyId).build();
+            coupon.setCompany(company);
             couponRepository.save(coupon);
             System.out.println("Coupon added successfully !");
         }
@@ -67,39 +65,31 @@ public class CompanyService extends ClientService {
         System.out.println("Coupon deleted successfully !");
     }
 
-    public List<Coupon> getCompanyCoupons() throws CouponSystemException {
+    public List<Coupon> getCompanyCoupons(int companyId) throws CouponSystemException {
         try {
-            return couponRepository.findAllCouponsByCompanyId(this.company.getId());
+            return couponRepository.findAllCouponsByCompanyId(companyId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Company coupons not found !" + e);
         }
     }
 
-    public List<Coupon> getCompanyCoupons(Category category) throws CouponSystemException {
+    public List<Coupon> getCompanyCoupons(int companyId, Category category) throws CouponSystemException {
         try {
-            return couponRepository.findAllByCompanyIdAndCategory(company.getId(), category);
+            return couponRepository.findAllByCompanyIdAndCategory(companyId, category);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Company coupons not found !" + e);
         }
     }
 
-    public List<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemException {
+    public List<Coupon> getCompanyCoupons(int companyId, double maxPrice) throws CouponSystemException {
         try {
-            return couponRepository.findAllByCompanyIdAndPriceLessThan(company.getId(), maxPrice);
+            return couponRepository.findAllByCompanyIdAndPriceLessThan(companyId, maxPrice);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Company coupons not found !" + e);
         }
     }
 
-    public Company getCompanyDetails() throws CouponSystemException {
-        List<Coupon> coupons;
-        try {
-            coupons = couponRepository.findAllCouponsByCompanyId(this.company.getId());
-        } catch (CouponSystemException e) {
-            throw new CouponSystemException("Company coupons not found !" + e);
-        }
-        this.company.setCoupons(coupons);
-
-        return this.company;
+    public Company getCompanyDetails(int companyId) throws CouponSystemException {
+        return companyRepository.findById(companyId).orElseThrow(() -> new CouponSystemException("Company not found !"));
     }
 }

@@ -33,9 +33,9 @@ public class CompanyController {
     }
 
     @PostMapping(path = "/add-coupon")
-    public void addCoupon(@RequestBody Coupon coupon) throws CouponSystemException {
+    public void addCoupon(@RequestBody Coupon coupon, @RequestParam int companyId) throws CouponSystemException {
         try {
-            companyService.addCoupon(coupon);
+            companyService.addCoupon(coupon, companyId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in adding coupon- " + e);
         }
@@ -60,36 +60,36 @@ public class CompanyController {
     }
 
     @GetMapping("/get-all-company-coupons")
-    public List<Coupon> getCompanyCoupons() throws CouponSystemException {
+    public List<Coupon> getCompanyCoupons(@RequestParam int companyId) throws CouponSystemException {
         try {
-            return companyService.getCompanyCoupons();
+            return companyService.getCompanyCoupons(companyId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all company coupons method- " + e);
         }
     }
 
     @GetMapping("/get-all-coupons-category")
-    public List<Coupon> getCompanyCoupons(@RequestParam Category category) throws CouponSystemException {
+    public List<Coupon> getCompanyCoupons(@RequestParam Category category, @RequestParam int companyId) throws CouponSystemException {
         try {
-            return companyService.getCompanyCoupons(category);
+            return companyService.getCompanyCoupons(companyId, category);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all company coupons method- " + e);
         }
     }
 
     @GetMapping("/get-all-coupons-maxPrice")
-    public List<Coupon> getCompanyCoupons(@RequestParam double maxPrice) throws CouponSystemException {
+    public List<Coupon> getCompanyCoupons(@RequestParam double maxPrice, @RequestParam int companyId) throws CouponSystemException {
         try {
-            return companyService.getCompanyCoupons(maxPrice);
+            return companyService.getCompanyCoupons(companyId, maxPrice);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all company coupons method- " + e);
         }
     }
 
     @GetMapping("/get-company-details")
-    public Company getCompanyDetails() throws CouponSystemException {
+    public Company getCompanyDetails(@RequestParam int companyId) throws CouponSystemException {
         try {
-            return companyService.getCompanyDetails();
+            return companyService.getCompanyDetails(companyId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in getting all company details method- " + e);
         }
