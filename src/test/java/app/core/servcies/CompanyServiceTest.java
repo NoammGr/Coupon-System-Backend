@@ -26,9 +26,9 @@ class CompanyServiceTest {
 
     Company company1 = Company.builder().id(1).name("Intel").email("Intel@gmail.com").password("aaabbb").build();
     Company company2 = Company.builder().id(2).name("Applied Materials").email("AMAT@gmail.com").password("aaabbb").build();
-    Category category = Category.Restaurant;
-    Category category1 = Category.Food;
-    Category category2 = Category.Electricity;
+    Category category = Category.RESTAURANT;
+    Category category1 = Category.FOOD;
+    Category category2 = Category.ELECTRICITY;
     String startDate = "2023-01-15";
     String endDate = "2023-05-27";
     Date start = Date.valueOf(startDate);

@@ -18,7 +18,7 @@ class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
 
-    Category category = Category.Restaurant;
+    Category category = Category.RESTAURANT;
 
     @Test
     void login() {

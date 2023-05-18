@@ -2,24 +2,13 @@ package app.core.tests;
 
 import java.sql.Date;
 
-import app.core.connectionsystem.ClientType;
-import app.core.connectionsystem.LoginManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 
 import app.core.entities.Category;
 import app.core.entities.Company;
 import app.core.entities.Coupon;
 import app.core.entities.Customer;
-import app.core.repositories.CompanyRepository;
-import app.core.repositories.CouponRepository;
-import app.core.repositories.CustomerRepository;
-import app.core.servcies.AdminService;
-import app.core.servcies.CompanyService;
-import app.core.servcies.CustomerService;
 
 @Component
 public class Test implements CommandLineRunner {
@@ -53,9 +42,9 @@ public class Test implements CommandLineRunner {
         Customer customer1 = Customer.builder().id(0).firstName("Noam").lastName("Dov").email("NoamDov@gmail.com").password("12343123").coupons(null).build();
         Customer customer2 = Customer.builder().id(0).firstName("Dov").lastName("Noam").email("DovNoam@gmail.com").password("12343123").coupons(null).build();
 
-        Category category = Category.Restaurant;
-        Category category1 = Category.Food;
-        Category category2 = Category.Electricity;
+        Category category = Category.RESTAURANT;
+        Category category1 = Category.FOOD;
+        Category category2 = Category.ELECTRICITY;
         String startDate = "2023-01-15";
         String endDate = "2023-03-27";
         Date start = Date.valueOf(startDate);

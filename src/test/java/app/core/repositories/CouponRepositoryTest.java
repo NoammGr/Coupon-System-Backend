@@ -15,7 +15,7 @@ class CouponRepositoryTest {
     @Autowired
     CouponRepository couponRepository;
 
-    Category category = Category.Restaurant;
+    Category category = Category.RESTAURANT;
 
 
     @Test

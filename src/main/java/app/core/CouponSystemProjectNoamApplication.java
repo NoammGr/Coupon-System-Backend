@@ -20,33 +20,4 @@ public class CouponSystemProjectNoamApplication {
     public static void main(String[] args) {
         SpringApplication.run(CouponSystemProjectNoamApplication.class, args);
     }
-
-    @Bean
-    OpenAPI customOpenAPI() {
-        return new OpenAPI().info(new Info().title("title").version("version").description("description")).addSecurityItem(new SecurityRequirement().addList("my security")).components(new Components().addSecuritySchemes("my security", new SecurityScheme().name("my security").type(SecurityScheme.Type.HTTP).scheme("bearer")));
-    }
-
-    @Bean
-    FilterRegistrationBean<AdminAuthorizationFilter> adminAuthFilter(JwtUtil jwtUtil) {
-        FilterRegistrationBean<AdminAuthorizationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new AdminAuthorizationFilter(jwtUtil));
-        regBean.addUrlPatterns("/admin/api/*");
-        return regBean;
-    }
-
-    @Bean
-    FilterRegistrationBean<CompanyAuthorizationFilter> companyAuthFilter(JwtUtil jwtUtil) {
-        FilterRegistrationBean<CompanyAuthorizationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new CompanyAuthorizationFilter(jwtUtil));
-        regBean.addUrlPatterns("/company/api/*");
-        return regBean;
-    }
-
-    @Bean
-    FilterRegistrationBean<CustomerAuthorizationFilter> CustomerAuthFilter(JwtUtil jwtUtil) {
-        FilterRegistrationBean<CustomerAuthorizationFilter> regBean = new FilterRegistrationBean<>();
-        regBean.setFilter(new CustomerAuthorizationFilter(jwtUtil));
-        regBean.addUrlPatterns("/customer/api/*");
-        return regBean;
-    }
 }
