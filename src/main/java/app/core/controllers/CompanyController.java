@@ -6,13 +6,18 @@ import app.core.connectionsystem.LoginManager;
 import app.core.entities.Category;
 import app.core.entities.Company;
 import app.core.entities.Coupon;
+import app.core.entities.CouponForm;
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -32,10 +37,31 @@ public class CompanyController {
         }
     }
 
-    @PostMapping(path = "/add-coupon")
-    public void addCoupon(@RequestBody Coupon coupon, @RequestParam int companyId) throws CouponSystemException {
+    @PostMapping(path = "/add-coupon", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void addCoupon(CouponForm couponForm) throws CouponSystemException {
+        String fileUploadPath = "src/main/resources/static/images";
+        String absolutePath = Paths.get(fileUploadPath).toAbsolutePath().normalize().toString();
+        File destinationFile = new File(absolutePath, couponForm.getTitle() + ".jpg");
         try {
-            companyService.addCoupon(coupon, companyId);
+            couponForm.getImage().transferTo(destinationFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(couponForm);
+        Coupon coupon = Coupon.builder()
+                .id(couponForm.getId())
+                .company(couponForm.getCompany())
+                .category(couponForm.getCategory())
+                .title(couponForm.getTitle())
+                .description(couponForm.getDescription())
+                .startDate(couponForm.getStartDate())
+                .endDate(couponForm.getEndDate())
+                .amount(couponForm.getAmount())
+                .price(couponForm.getPrice())
+                .image("src/main/resources/static/images/" + couponForm.getTitle())
+                .build();
+        try {
+            companyService.addCoupon(coupon);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("Error in adding coupon- " + e);
         }

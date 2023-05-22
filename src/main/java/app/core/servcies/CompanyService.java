@@ -32,7 +32,7 @@ public class CompanyService extends ClientService {
         return companyRepository.findByEmail(userCredentials.getEmail()) != null;
     }
 
-    public void addCoupon(Coupon coupon, int companyId) throws CouponSystemException {
+    public void addCoupon(Coupon coupon) throws CouponSystemException {
         Optional<Coupon> optional = couponRepository.findById(coupon.getId());
         if (optional.isEmpty()) {
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -42,7 +42,7 @@ public class CompanyService extends ClientService {
             if (couponRepository.existsByCompanyIdAndTitle(coupon.getCompany().getId(), coupon.getTitle())) {
                 throw new CouponSystemException("Check the coupon name and try again !");
             }
-            Company company = Company.builder().id(companyId).build();
+            Company company = Company.builder().id(coupon.getCompany().getId()).build();
             coupon.setCompany(company);
             couponRepository.save(coupon);
             System.out.println("Coupon added successfully !");
