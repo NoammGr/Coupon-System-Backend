@@ -70,12 +70,12 @@ class CompanyServiceTest {
         String password1 = "aaabbb";
         UserCredentials userCredentials1 = UserCredentials.builder().email(email1).password(password1).clientType(ClientType.COMPANY).build();
         String companyJwt2 = loginManager.login(userCredentials);
-        assertAll(() -> companyService1.addCoupon(coupon, 1));
-        assertAll(() -> companyService1.addCoupon(coupon1, 1));
-        assertAll(() -> companyService1.addCoupon(coupon2, 1));
-        assertAll(() -> companyService2.addCoupon(coupon3, 2));
-        assertAll(() -> companyService2.addCoupon(coupon4, 2));
-        assertAll(() -> companyService2.addCoupon(coupon5, 2));
+        assertAll(() -> companyService1.addCoupon(coupon));
+        assertAll(() -> companyService1.addCoupon(coupon1));
+        assertAll(() -> companyService1.addCoupon(coupon2));
+        assertAll(() -> companyService2.addCoupon(coupon3));
+        assertAll(() -> companyService2.addCoupon(coupon4));
+        assertAll(() -> companyService2.addCoupon(coupon5));
         System.out.println("Test 2 completed !");
     }
 
