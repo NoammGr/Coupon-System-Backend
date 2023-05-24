@@ -14,7 +14,7 @@ public class CouponServiceTest {
 
     @Test
     void testGetImage() {
-        System.out.println(couponService.getImage(14));
-        assertAll(() -> couponService.getImage(14));
+        System.out.println(couponService.getImage(5));
+        assertAll(() -> couponService.getImage(5));
     }
 }

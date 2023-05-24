@@ -3,10 +3,7 @@ package app.core.controllers;
 import app.core.entities.Coupon;
 import app.core.servcies.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class CouponController {
     }
 
     @GetMapping(path = "/get-image-id")
-    public String getImage(int couponId) {
-        return this.couponService.getImage(couponId);
+    public String getImage(@RequestParam int couponId) {
+        return "http://localhost:8080/" + couponService.getImage(couponId);
     }
 }

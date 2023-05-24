@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/company/api")
@@ -40,8 +41,9 @@ public class CompanyController {
     @PostMapping(path = "/add-coupon", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void addCoupon(CouponForm couponForm) throws CouponSystemException {
         String fileUploadPath = "src/main/resources/static/images";
+        String originalFileName = couponForm.getImage().getOriginalFilename();
         String absolutePath = Paths.get(fileUploadPath).toAbsolutePath().normalize().toString();
-        File destinationFile = new File(absolutePath, couponForm.getTitle() + ".jpg");
+        File destinationFile = new File(absolutePath, Objects.requireNonNull(originalFileName));
         try {
             couponForm.getImage().transferTo(destinationFile);
         } catch (IOException e) {
@@ -58,7 +60,7 @@ public class CompanyController {
                 .endDate(couponForm.getEndDate())
                 .amount(couponForm.getAmount())
                 .price(couponForm.getPrice())
-                .image("src/main/resources/static/images/" + couponForm.getTitle())
+                .image("images/" + originalFileName)
                 .build();
         try {
             companyService.addCoupon(coupon);
