@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.AdminService;
-import app.core.servcies.ClientService;
 import app.core.servcies.CompanyService;
 import app.core.servcies.CustomerService;
 import org.springframework.stereotype.Component;
@@ -51,7 +50,7 @@ public class LoginManager {
                         throw new CouponSystemException("Wrong password ");
                     }
                 } else {
-                    throw new CouponSystemException("Wrong email ");
+                    throw new CouponSystemException("Wrong email or client type !");
                 }
             }
             case CUSTOMER -> {
@@ -64,10 +63,10 @@ public class LoginManager {
                         throw new CouponSystemException("Wrong password ");
                     }
                 } else {
-                    throw new CouponSystemException("Wrong email");
+                    throw new CouponSystemException("Wrong email or client type !");
                 }
             }
         }
-        throw new CouponSystemException("Wrong client type !");
+        throw new CouponSystemException("Error in receiving credentials !");
     }
 }
