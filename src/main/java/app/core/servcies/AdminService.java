@@ -63,11 +63,11 @@ public class AdminService extends ClientService {
         System.out.println("Company updated successfully !");
     }
 
-    public void deleteCompany(Company company) throws CouponSystemException {
-        companyRepository.findById(company.getId()).orElseThrow(() -> new CouponSystemException("Company doesn't exist !"));
-        couponRepository.deleteAllCouponsByCompanyId(company.getId());
+    public void deleteCompany(int companyId) throws CouponSystemException {
+        companyRepository.findById(companyId).orElseThrow(() -> new CouponSystemException("Company doesn't exist !"));
+        couponRepository.deleteAllCouponsByCompanyId(companyId);
         System.out.println("All company coupons has been deleted ! ");
-        companyRepository.deleteById(company.getId());
+        companyRepository.deleteById(companyId);
         System.out.println("Company deleted successfully !");
     }
 
@@ -102,9 +102,9 @@ public class AdminService extends ClientService {
         System.out.println("Customer updated successfully !");
     }
 
-    public void deleteCustomer(Customer customer) throws CouponSystemException {
-        customerRepository.findById(customer.getId()).orElseThrow(() -> new CouponSystemException("Customer doesn't exist !"));
-        customerRepository.deleteCouponsById(customer.getId());
+    public void deleteCustomer(int customerId) throws CouponSystemException {
+        customerRepository.findById(customerId).orElseThrow(() -> new CouponSystemException("Customer doesn't exist !"));
+        customerRepository.deleteCouponsById(customerId);
         System.out.println("All customer coupons has been deleted ! ");
         System.out.println("Customer deleted successfully !");
     }

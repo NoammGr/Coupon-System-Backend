@@ -52,9 +52,9 @@ public class AdminController {
     }
 
     @DeleteMapping(path = "/delete-company")
-    public void deleteCompany(@RequestBody Company company) throws CouponSystemException {
+    public void deleteCompany(@RequestParam int companyId) throws CouponSystemException {
         try {
-            adminService.deleteCompany(company);
+            adminService.deleteCompany(companyId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("error in deleting company- " + e);
         }
@@ -97,9 +97,9 @@ public class AdminController {
     }
 
     @DeleteMapping(path = "/delete-customer")
-    public void deleteCustomer(@RequestBody Customer customer) throws CouponSystemException {
+    public void deleteCustomer(@RequestParam int customerId) throws CouponSystemException {
         try {
-            adminService.deleteCustomer(customer);
+            adminService.deleteCustomer(customerId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException("error in deleting customer- " + e);
         }
