@@ -59,9 +59,9 @@ public class CompanyService extends ClientService {
         }
     }
 
-    public void deleteCoupon(Coupon coupon) throws CouponSystemException {
-        couponRepository.findById(coupon.getId()).orElseThrow(() -> new CouponSystemException("Coupon doesn't exist !"));
-        couponRepository.deleteById(coupon.getId());
+    public void deleteCoupon(int couponId) throws CouponSystemException {
+        couponRepository.findById(couponId).orElseThrow(() -> new CouponSystemException("Coupon doesn't exist !"));
+        couponRepository.deleteById(couponId);
         System.out.println("Coupon deleted successfully !");
     }
 

@@ -5,6 +5,8 @@ import app.core.entities.Company;
 import app.core.entities.Coupon;
 import app.core.entities.CouponForm;
 import app.core.exceptions.CouponSystemException;
+import app.core.repositories.CompanyRepository;
+import app.core.repositories.CouponRepository;
 import app.core.servcies.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,6 +24,8 @@ import java.util.Objects;
 public class CompanyController {
     @Autowired
     CompanyService companyService;
+    @Autowired
+    CouponRepository couponRepository;
 
     @PostMapping(path = "/add-coupon", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void addCoupon(CouponForm couponForm) throws CouponSystemException {
@@ -54,25 +58,47 @@ public class CompanyController {
         }
     }
 
-    @PutMapping("/update-coupon")
-    public void updateCoupon(@RequestBody Coupon coupon) throws CouponSystemException {
+    @PutMapping(path = "/update-coupon", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void updateCoupon(CouponForm couponForm) throws CouponSystemException {
+        String fileUploadPath = "src/main/resources/static/images";
+        String originalFileName = couponForm.getImage().getOriginalFilename();
+        String absolutePath = Paths.get(fileUploadPath).toAbsolutePath().normalize().toString();
+        File destinationFile = new File(absolutePath, Objects.requireNonNull(originalFileName));
         try {
-            companyService.updateCoupon(coupon);
+            couponForm.getImage().transferTo(destinationFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(couponForm);
+        Coupon coupon = Coupon.builder()
+                .id(couponForm.getId())
+                .company(couponForm.getCompany())
+                .category(couponForm.getCategory())
+                .title(couponForm.getTitle())
+                .description(couponForm.getDescription())
+                .startDate(couponForm.getStartDate())
+                .endDate(couponForm.getEndDate())
+                .amount(couponForm.getAmount())
+                .price(couponForm.getPrice())
+                .image("images/" + originalFileName)
+                .build();
+        try {
+            companyService.addCoupon(coupon);
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }
     }
 
-    @DeleteMapping("/delete-coupon")
-    public void deleteCoupon(@RequestBody Coupon coupon) throws CouponSystemException {
+    @DeleteMapping(path = "/delete-coupon")
+    public void deleteCoupon(@RequestParam int couponId) throws CouponSystemException {
         try {
-            companyService.deleteCoupon(coupon);
+            companyService.deleteCoupon(couponId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }
     }
 
-    @GetMapping("/get-all-company-coupons")
+    @GetMapping(path = "/get-all-company-coupons")
     public List<Coupon> getCompanyCoupons(@RequestParam int companyId) throws CouponSystemException {
         try {
             return companyService.getCompanyCoupons(companyId);
@@ -81,7 +107,7 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/get-all-coupons-category")
+    @GetMapping(path = "/get-all-coupons-category")
     public List<Coupon> getCompanyCoupons(@RequestParam Category category, @RequestParam int companyId) throws CouponSystemException {
         try {
             return companyService.getCompanyCoupons(companyId, category);
@@ -90,7 +116,7 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/get-all-coupons-maxPrice")
+    @GetMapping(path = "/get-all-coupons-maxPrice")
     public List<Coupon> getCompanyCoupons(@RequestParam double maxPrice, @RequestParam int companyId) throws CouponSystemException {
         try {
             return companyService.getCompanyCoupons(companyId, maxPrice);
@@ -99,10 +125,24 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/get-company-details")
+    @GetMapping(path = "/get-company-details")
     public Company getCompanyDetails(@RequestParam int companyId) throws CouponSystemException {
         try {
             return companyService.getCompanyDetails(companyId);
+        } catch (CouponSystemException e) {
+            throw new CouponSystemException(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "/get-coupon-number")
+    public int getCouponNumber() throws CouponSystemException {
+        return (int) couponRepository.count();
+    }
+
+    @GetMapping(path = "/get-company-coupon")
+    public Coupon getCompanyCoupon(@RequestParam int couponId) throws CouponSystemException {
+        try {
+            return couponRepository.findCouponById(couponId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }

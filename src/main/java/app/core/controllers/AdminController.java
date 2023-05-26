@@ -3,6 +3,8 @@ package app.core.controllers;
 import app.core.entities.Company;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
+import app.core.repositories.CompanyRepository;
+import app.core.repositories.CustomerRepository;
 import app.core.servcies.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,10 @@ import java.util.List;
 public class AdminController {
     @Autowired
     AdminService adminService;
+    @Autowired
+    CompanyRepository companyRepository;
+    @Autowired
+    CustomerRepository customerRepository;
 
     @PostMapping(path = "/add-company")
     public void addCompany(@RequestBody Company company) throws CouponSystemException {
@@ -101,6 +107,24 @@ public class AdminController {
     public Customer getOneCustomer(@RequestParam int customerId) throws CouponSystemException {
         try {
             return adminService.getOneCustomer(customerId);
+        } catch (CouponSystemException e) {
+            throw new CouponSystemException(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "get-company-number")
+    public int getCompanyNumber() throws CouponSystemException {
+        try {
+            return (int) companyRepository.count();
+        } catch (CouponSystemException e) {
+            throw new CouponSystemException(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "get-customer-number")
+    public int getCustomerNumber() throws CouponSystemException {
+        try {
+            return (int) customerRepository.count();
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }

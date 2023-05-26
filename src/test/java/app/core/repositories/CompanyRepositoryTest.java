@@ -29,4 +29,10 @@ class CompanyRepositoryTest {
         assertTrue(companyRepository.existsByEmailAndPassword(email, password));
         System.out.println("Test 2 completed !");
     }
+
+    @Test
+    void count(){
+        int number = (int) companyRepository.count();
+        System.out.println(number);
+    }
 }

@@ -36,4 +36,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
     boolean existsByCustomersIdAndId(int customerId, int couponId);
 
+    Coupon findCouponById(int couponId);
+
 }

@@ -66,8 +66,8 @@ class AdminServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.ADMIN).build();
         String adminJwt = loginManager.login(userCredentials);
         System.out.println(adminJwt);
-        assertAll(() -> adminService.deleteCompany(company1));
-        assertAll(() -> adminService.deleteCompany(company2));
+        assertAll(() -> adminService.deleteCompany(company1.getId()));
+        assertAll(() -> adminService.deleteCompany(company2.getId()));
         System.out.println("Test 4 completed !");
     }
 
@@ -130,8 +130,8 @@ class AdminServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.ADMIN).build();
         String adminJwt = loginManager.login(userCredentials);
         System.out.println(adminJwt);
-        assertAll(() -> adminService.deleteCustomer(customer1));
-        assertAll(() -> adminService.deleteCustomer(customer2));
+        assertAll(() -> adminService.deleteCustomer(customer1.getId()));
+        assertAll(() -> adminService.deleteCustomer(customer2.getId()));
         System.out.println("Test 9 completed !");
     }
 

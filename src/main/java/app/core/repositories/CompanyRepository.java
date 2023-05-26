@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import app.core.entities.Company;
 
-import java.util.Optional;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
