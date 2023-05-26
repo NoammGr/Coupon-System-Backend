@@ -1,16 +1,11 @@
 package app.core.controllers;
 
-import app.core.auth.UserCredentials;
-import app.core.connectionsystem.ClientType;
-import app.core.connectionsystem.LoginManager;
 import app.core.entities.Company;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,26 +14,14 @@ import java.util.List;
 @CrossOrigin
 public class AdminController {
     @Autowired
-    LoginManager loginManager;
-    @Autowired
     AdminService adminService;
-
-    public String login(@RequestBody UserCredentials userCredentials) throws CouponSystemException {
-        try {
-            String token = loginManager.login(userCredentials);
-            System.out.println(token);
-            return token;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
-    }
 
     @PostMapping(path = "/add-company")
     public void addCompany(@RequestBody Company company) throws CouponSystemException {
         try {
             adminService.addCompany(company);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in adding company- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -47,7 +30,7 @@ public class AdminController {
         try {
             adminService.updateCompany(company);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in updating company- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -56,7 +39,7 @@ public class AdminController {
         try {
             adminService.deleteCompany(companyId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in deleting company- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -65,7 +48,7 @@ public class AdminController {
         try {
             return adminService.getAllCompanies();
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in getting all company method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -74,7 +57,7 @@ public class AdminController {
         try {
             return adminService.getOneCompany(companyId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in getting one company method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -83,7 +66,7 @@ public class AdminController {
         try {
             adminService.addCustomer(customer);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in adding customer- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -92,7 +75,7 @@ public class AdminController {
         try {
             adminService.updateCustomer(customer);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in updating customer- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -101,7 +84,7 @@ public class AdminController {
         try {
             adminService.deleteCustomer(customerId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in deleting customer- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -110,7 +93,7 @@ public class AdminController {
         try {
             return adminService.getAllCustomers();
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in adding company- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -119,7 +102,7 @@ public class AdminController {
         try {
             return adminService.getOneCustomer(customerId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in adding company- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 }

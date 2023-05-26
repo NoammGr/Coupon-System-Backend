@@ -1,17 +1,12 @@
 package app.core.controllers;
 
-import app.core.auth.UserCredentials;
-import app.core.connectionsystem.ClientType;
-import app.core.connectionsystem.LoginManager;
 import app.core.entities.Category;
 import app.core.entities.Coupon;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.List;
@@ -21,24 +16,14 @@ import java.util.List;
 @CrossOrigin
 public class CustomerController {
     @Autowired
-    LoginManager loginManager;
-    @Autowired
     CustomerService customerService;
-
-    public String login(@RequestBody UserCredentials userCredentials) throws CouponSystemException {
-        try {
-            return (String) loginManager.login(userCredentials);
-        } catch (CouponSystemException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
 
     @PostMapping(path = "/coupon-purchase")
     public void purchaseCoupon(@RequestParam int id, @RequestParam int customerId) throws CouponSystemException {
         try {
             customerService.purchaseCoupon(id, customerId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("error in purchase coupon method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -47,7 +32,7 @@ public class CustomerController {
         try {
             return customerService.getCustomerCoupon(customerId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all customer coupons method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -56,7 +41,7 @@ public class CustomerController {
         try {
             return customerService.getCustomerCoupon(customerId, category);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all customer coupons method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -65,7 +50,7 @@ public class CustomerController {
         try {
             return customerService.getCustomerCoupon(customerId, maxPrice);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all customer coupons method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -74,7 +59,7 @@ public class CustomerController {
         try {
             return customerService.getCustomerDetails(customerId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all customer details method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 }

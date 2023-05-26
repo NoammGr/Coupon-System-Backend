@@ -1,8 +1,5 @@
 package app.core.controllers;
 
-import app.core.auth.UserCredentials;
-import app.core.connectionsystem.ClientType;
-import app.core.connectionsystem.LoginManager;
 import app.core.entities.Category;
 import app.core.entities.Company;
 import app.core.entities.Coupon;
@@ -10,10 +7,8 @@ import app.core.entities.CouponForm;
 import app.core.exceptions.CouponSystemException;
 import app.core.servcies.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,17 +21,7 @@ import java.util.Objects;
 @CrossOrigin
 public class CompanyController {
     @Autowired
-    LoginManager loginManager;
-    @Autowired
     CompanyService companyService;
-
-    public String login(@RequestBody UserCredentials userCredentials) throws CouponSystemException {
-        try {
-            return (String) loginManager.login(userCredentials);
-        } catch (CouponSystemException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
 
     @PostMapping(path = "/add-coupon", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void addCoupon(CouponForm couponForm) throws CouponSystemException {
@@ -65,7 +50,7 @@ public class CompanyController {
         try {
             companyService.addCoupon(coupon);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in adding coupon- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -74,7 +59,7 @@ public class CompanyController {
         try {
             companyService.updateCoupon(coupon);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in updating coupon method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -83,7 +68,7 @@ public class CompanyController {
         try {
             companyService.deleteCoupon(coupon);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in deleting coupon method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -92,7 +77,7 @@ public class CompanyController {
         try {
             return companyService.getCompanyCoupons(companyId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all company coupons method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -101,7 +86,7 @@ public class CompanyController {
         try {
             return companyService.getCompanyCoupons(companyId, category);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all company coupons method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -110,7 +95,7 @@ public class CompanyController {
         try {
             return companyService.getCompanyCoupons(companyId, maxPrice);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all company coupons method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 
@@ -119,7 +104,7 @@ public class CompanyController {
         try {
             return companyService.getCompanyDetails(companyId);
         } catch (CouponSystemException e) {
-            throw new CouponSystemException("Error in getting all company details method- " + e);
+            throw new CouponSystemException(e.getMessage());
         }
     }
 }
