@@ -19,9 +19,9 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping(path = "/coupon-purchase")
-    public void purchaseCoupon(@RequestParam int id, @RequestParam int customerId) throws CouponSystemException {
+    public void purchaseCoupon(@RequestParam int CouponId, @RequestParam int customerId) throws CouponSystemException {
         try {
-            customerService.purchaseCoupon(id, customerId);
+            customerService.purchaseCoupon(CouponId, customerId);
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }

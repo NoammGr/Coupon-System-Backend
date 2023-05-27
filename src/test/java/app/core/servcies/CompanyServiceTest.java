@@ -99,7 +99,7 @@ class CompanyServiceTest {
         UserCredentials userCredentials = UserCredentials.builder().email(email).password(password).clientType(ClientType.COMPANY).build();
         String companyJwt1 = loginManager.login(userCredentials);
         System.out.println(companyJwt1);
-        assertAll(() -> companyService1.deleteCoupon(coupon));
+        assertAll(() -> companyService1.deleteCoupon(coupon.getId()));
         System.out.println("Test 4 completed !");
     }
 

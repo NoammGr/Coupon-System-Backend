@@ -34,8 +34,8 @@ public class CustomerService extends ClientService {
         return customerRepository.findByEmail(userCredentials.getEmail()) != null;
     }
 
-    public void purchaseCoupon(int id, int customerId) throws CouponSystemException {
-        Coupon tempCoupon = couponRepository.findById(id).orElseThrow(() -> new CouponSystemException("Coupon not found"));
+    public void purchaseCoupon(int couponId, int customerId) throws CouponSystemException {
+        Coupon tempCoupon = couponRepository.findById(couponId).orElseThrow(() -> new CouponSystemException("Coupon not found"));
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CouponSystemException("Customer not found"));
         java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         if (couponRepository.existsByCustomersIdAndId(customerId, tempCoupon.getId())) {
