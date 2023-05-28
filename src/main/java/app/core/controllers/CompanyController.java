@@ -83,7 +83,7 @@ public class CompanyController {
                 .image("images/" + originalFileName)
                 .build();
         try {
-            companyService.addCoupon(coupon);
+            companyService.updateCoupon(coupon);
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }
