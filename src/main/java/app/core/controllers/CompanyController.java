@@ -92,7 +92,12 @@ public class CompanyController {
     @DeleteMapping(path = "/delete-coupon")
     public void deleteCoupon(@RequestParam int couponId) throws CouponSystemException {
         try {
+            Coupon coupon = couponRepository.findById(couponId).orElseThrow(() -> new CouponSystemException("Coupon not found"));
             companyService.deleteCoupon(couponId);
+            File file = new File("src/main/resources/static/" + coupon.getImage());
+            if (file.delete()) {
+                System.out.println("Coupon image is also deleted");
+            }
         } catch (CouponSystemException e) {
             throw new CouponSystemException(e.getMessage());
         }
